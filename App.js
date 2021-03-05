@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
 Sentry.init({
@@ -9,17 +9,31 @@ Sentry.init({
 });
 
 export default function App() {
-  throw new Error("My first Sentry error!");
-
   return (
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" />
+
+      <View style={styles.buttons}>
+        <Button
+          title="JavaScript Error"
+          onPress={() => { throw new Error("You've thrown a JavaScript error"); }}
+        />
+
+        <Button
+          title="Native Crash"
+          onPress={() => { Sentry.nativeCrash(); }}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  buttons: {
+    flexDirection: 'row',
+    margin: 50,
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
